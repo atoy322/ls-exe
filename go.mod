@@ -1,4 +1,4 @@
-module ls
+module github.com/atoy322/ls-exe
 
 go 1.17
 
