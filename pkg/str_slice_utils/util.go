@@ -6,14 +6,28 @@ import (
 
 
 func MaxLen(str_slice []string) int {
-    re, _ := regexp.Compile("\x1b.[0-9]{1,2}m")
     max := 0
-    var str string
+    
     for _, i := range str_slice {
-        str = re.ReplaceAllString(i, "")
-        if max < len(str) {
-            max = len(str)
+        if max < len(i) {
+            max = len(i)
         }
     }
+
     return max
+}
+
+func Filter(str_slice []string, from, to string) ([]string, error) {
+    re, e := regexp.Compile(from)
+    if e != nil {
+        return []string{}, e
+    }
+
+    var str string
+    result := make([]string, 0)
+    for _, i := range str_slice {
+        str = re.ReplaceAllString(i, to)
+        result = append(result, str)
+    }
+    return result, nil
 }

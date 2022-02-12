@@ -13,9 +13,7 @@ import (
 func main() {
     options := cmdline_parser.Parse(os.Args)
     // options.Color = true
-    fmt.Println(options)
-    dir := options.Directory
-    finfo, e := os.Stat(dir)
+    finfo, e := os.Stat(options.Directory)
 
     ls := make([]os.DirEntry, 0)
     if e != nil {
@@ -23,19 +21,28 @@ func main() {
     } else if !finfo.IsDir() {  // is file
         ls = append(ls, fs.FileInfoToDirEntry(finfo))
     } else {  // is folder
-        ls, e = os.ReadDir(dir)
+        ls, e = os.ReadDir(options.Directory)
 
         if e != nil {
             panic(e)
         }
     }
 
-    style := &colorization.TextStyle{}
+    var style colorization.TextStyle
     filenames := make([]string, 0)
     for _, i := range ls {
         style = colorization.Judge(i.Type())
-        filenames = append(filenames, style.Colorize(i.Name()))
+
+        if i.Name()[0] == '.' && !options.All {
+            continue
+        }
+        if options.Color {
+            filenames = append(filenames, style.Colorize(i.Name()))
+        } else {
+            filenames = append(filenames, i.Name())
+        }
     }
 
     pretty_print.Pprint(filenames)
+    fmt.Print("\n")
 }
