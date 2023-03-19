@@ -31,7 +31,7 @@ func main() {
     var style colorization.TextStyle
     filenames := make([]string, 0)
     for _, i := range ls {
-        style = colorization.Judge(i.Type())
+        style = colorization.Judge(i)
 
         if i.Name()[0] == '.' && !options.All {
             continue

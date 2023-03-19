@@ -45,7 +45,7 @@ func (ts TextStyle) Colorize(text string) string {
     return ts.ForeColor + ts.BgColor + others + text + reset
 }
 
-func Judge(f fs.FileMode) TextStyle {
+func Judge(f fs.DirEntry) TextStyle {
     var style TextStyle
     if f.IsDir() {
         style.ForeColor = Blue
