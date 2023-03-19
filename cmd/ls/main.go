@@ -12,7 +12,7 @@ import (
 
 func main() {
     options := cmdline_parser.Parse(os.Args)
-    // options.Color = true
+    options.Color = true  // Please comment out this line if you want to disable default colorization.
     finfo, e := os.Stat(options.Directory)
 
     ls := make([]os.DirEntry, 0)
