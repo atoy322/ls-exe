@@ -1,6 +1,7 @@
 package colorization
 
 import (
+    "strings"
 	"io/fs"
 )
 
@@ -47,9 +48,19 @@ func (ts TextStyle) Colorize(text string) string {
 
 func Judge(f fs.DirEntry) TextStyle {
     var style TextStyle
+
     if f.IsDir() {
         style.ForeColor = Blue
         style.Bold = true
+    } else {
+        cs := strings.Split(f.Name(), ".")
+        // name := strings.Join(cs[:len(cs)-1], ".")
+        ext := cs[len(cs)-1]
+
+        if ext == "exe" {
+            style.ForeColor = Green
+        }
     }
+
     return style
 }
